@@ -5,6 +5,34 @@ import pytz
 import random
 import os
 
+from flask import Flask
+from threading import Thread
+
+# =====================
+# Keep Alive
+# =====================
+
+app = Flask('')
+
+
+@app.route('/')
+def home():
+    return "Flandre Bot is alive!"
+
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
+
+
+# =====================
+# Discord Bot
+# =====================
+
 TOKEN = os.getenv("TOKEN")
 
 # 送信先チャンネル
@@ -82,4 +110,5 @@ async def on_ready():
     taikousen_bot.start()
 
 
+keep_alive()
 client.run(TOKEN)
